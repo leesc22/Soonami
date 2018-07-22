@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 jsonResponse = makeHttpRequest(url)
             } catch (e: IOException) {
-                // TODO Handle the IOException
+                Log.e(LOG_TAG, "Problem making the HTTP request.", e)
             }
 
             // Extract relevant fields from the JSON response and create an {@link Event} object
@@ -147,9 +147,11 @@ class MainActivity : AppCompatActivity() {
                 if (urlConnection.responseCode == 200) {
                     inputStream = urlConnection.inputStream
                     jsonResponse = readFromStream(inputStream)
+                } else {
+                    Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode())
                 }
             } catch (e: IOException) {
-                // TODO: Handle the exception
+                Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e)
             } finally {
                 urlConnection?.disconnect()
                 inputStream?.close()
